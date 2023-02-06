@@ -21,7 +21,7 @@
   </select>
 
   <!-- 新規会員登録 -->
-  <insert id="create">
+  <insert id="createMember">
     insert into members (
       name
       , mail
