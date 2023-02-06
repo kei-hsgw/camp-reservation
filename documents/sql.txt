@@ -40,7 +40,7 @@ create table if not exists sales_tax (
     created_at timestamp not null default current_timestamp
 );
 
-insert into sales_tax (date_from, date_to, rate, created_at) values ('2019-10-01', '2030-12-31', 0.10, default)
+insert into sales_tax (date_from, date_to, rate, created_at) values ('2019-10-01', '2030-12-31', 0.10, default);
 
 -- rate_types
 create table if not exists rate_types (
