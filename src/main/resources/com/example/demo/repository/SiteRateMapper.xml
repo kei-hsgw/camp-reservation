@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.SiteRateMapper">
+
+  <!-- サイトタイプ別料金情報取得 -->
+  <select id="findAllSiteRatePivot" resultType="SiteRatePivot">
+    select
+      sr.site_type_id as site_type_id
+      , st.name as site_type_name
+      , max(case when rt.id = 1 then rate end) as rate_basic
+      , max(case when rt.id = 2 then rate end) as rate_high_season
+    from
+      site_rates as sr
+    inner join
+      rate_types as rt
+    on
+      sr.rate_type_id = rt.id
+    inner join
+      site_types as st
+    on
+      sr.site_type_id = st.id
+    group by
+      sr.site_type_id
+      , st.name
+    order by
+      sr.site_type_id
+  </select>
+
+</mapper>
