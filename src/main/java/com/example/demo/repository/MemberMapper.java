@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.domain.model.Member;
@@ -12,11 +14,11 @@ public interface MemberMapper {
 	 * @param mail メールアドレス
 	 * @return
 	 */
-	public Member findByMail(String mail);
+	public Optional<Member> findByMail(String mail);
 	
 	/**
 	 * 会員登録
 	 * @param member 会員情報
 	 */
-	public void create(Member member);
+	public void createMember(Member member);
 }
