@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +15,11 @@ public interface SiteTypeMapper {
 	 * @return
 	 */
 	public List<SiteType> findAllSiteType();
+	
+	/**
+	 * サイトタイプ取得(ID指定)
+	 * @param siteTypeId
+	 * @return
+	 */
+	public Optional<SiteType> findBySiteTypeId(int siteTypeId);
 }

@@ -25,4 +25,16 @@ public class CampingAppService {
 	public List<SiteType> findAllSiteType() {
 		return siteTypeService.findAllSiteType();
 	}
+	
+	/**
+	 * サイトタイプ名取得
+	 * @param siteTypeId
+	 * @return
+	 */
+	public String findSiteTypeName(int siteTypeId) {
+		
+		return siteTypeService.findBySiteTypeId(siteTypeId)
+				.map(st -> st.getName())
+				.orElseThrow(() -> new RuntimeException());
+	}
 }
