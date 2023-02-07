@@ -15,4 +15,16 @@
       id
   </select>
 
+  <!-- サイトタイプ取得(ID取得) -->
+  <select id="findBySiteTypeId" resultType="SiteType">
+    select
+      id
+      , name
+      , capacity
+    from
+      site_types
+    where
+      id = #{siteTypeId}
+  </select>
+
 </mapper>

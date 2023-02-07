@@ -1,6 +1,7 @@
 package com.example.demo.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,14 @@ public class SiteTypeService {
 	 */
 	public List<SiteType> findAllSiteType() {
 		return siteTypeMapper.findAllSiteType();
+	}
+	
+	/**
+	 * サイトタイプ取得(ID指定)
+	 * @param siteTypeId
+	 * @return
+	 */
+	public Optional<SiteType> findBySiteTypeId(int siteTypeId) {
+		return siteTypeMapper.findBySiteTypeId(siteTypeId);
 	}
 }
