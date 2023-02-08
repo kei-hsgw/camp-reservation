@@ -14,7 +14,7 @@ public class SiteAvailability {
 	private LocalDate calendarDate;
 	
 	/** サイトタイプID */
-	private int siiteTypeId;
+	private int siteTypeId;
 	
 	/** 空き数 */
 	private int availabilityCount;

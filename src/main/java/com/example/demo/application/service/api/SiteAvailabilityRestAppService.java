@@ -44,7 +44,7 @@ public class SiteAvailabilityRestAppService {
 				generateTitle(element.getAvailabilityCount()),
 				element.getCalendarDate(),
 				generateUrl(element.getAvailabilityCount()
-						, element.getSiiteTypeId()
+						, element.getSiteTypeId()
 						, element.getCalendarDate())))
 				.collect(Collectors.toList());
 	}
@@ -68,8 +68,8 @@ public class SiteAvailabilityRestAppService {
 	private String generateUrl(int availabilityCount, int siteTypeId, LocalDate dateFrom) {
 		
 		String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/camping/stayInfo")
-				.queryParam("form")
-				.queryParam("sitetypeId", siteTypeId)
+				.queryParam("stayInfoForm")
+				.queryParam("siteTypeId", siteTypeId)
 				.queryParam("dateFrom", dateFrom.format(ISO_LOCAL_DATE))
 				.toUriString();
 		
