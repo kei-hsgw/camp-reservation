@@ -35,7 +35,16 @@ public class SecurityConfig {
 					.requestMatchers("/api/**").permitAll()
 					// 認証の必要があるように設定
 					.anyRequest().authenticated())
-			.formLogin();
+			.formLogin(login -> login
+					.loginProcessingUrl("/login")
+					.loginPage("/login")
+					.usernameParameter("mail")
+					.passwordParameter("password")
+					.defaultSuccessUrl("/", false))
+			.logout(logout -> logout
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login?logout")
+					.deleteCookies("JSESSIONID"));
 		return http.build();
 	}
 }
