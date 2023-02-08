@@ -41,6 +41,11 @@ public class CampingController {
 		return new StayInfoForm();
 	}
 	
+	@ModelAttribute
+	public UserInfoForm setUpUserInfoForm() {
+		return new UserInfoForm();
+	}
+	
 	/**
 	 * サイトタイプ一覧表示
 	 * @param model
@@ -84,6 +89,8 @@ public class CampingController {
 		return "camping/stayInfo";
 	}
 	
+	// -------------------- Member Reservation --------------------
+	
 	/**
 	 * 宿泊情報を予約内容確認（会員）に引き継ぎ
 	 * @param stayInfoForm
@@ -103,6 +110,12 @@ public class CampingController {
 		return "redirect:/camping/member/reserve?confirm";
 	}
 	
+	/**
+	 * 予約内容確認(会員)
+	 * @param authenticatedMember
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/member/reserve", params = "confirm")
 	public String confirmByMember(@AuthenticationPrincipal AuthenticatedMember authenticatedMember, Model model) {
 		
@@ -128,6 +141,8 @@ public class CampingController {
 		return "camping/confirm";
 	}
 	
+	// -------------------- Guest Reservation --------------------
+	
 	/**
 	 * 宿泊情報を予約者情報フォーム表示（非会員）に引き継ぎ
 	 * @param stayInfoForm
@@ -141,6 +156,44 @@ public class CampingController {
 			return "camping/stayInfo";
 		}
 		
-		return "forword:/camping/guest/reserve?stayInfoForm";
+		return "forward:/camping/guest/reserve?stayInfoForm";
+	}
+	
+	/**
+	 * 予約者情報フォーム表示(非会員)
+	 * @param stayInfoForm
+	 * @param userInfoForm
+	 * @return
+	 */
+	@PostMapping(value = "/guest/reserve", params = "stayInfoForm")
+	public String userInfoByGuest(StayInfoForm stayInfoForm, UserInfoForm userInfoForm) {
+		return "camping/userInfo";
+	}
+	
+	/**
+	 * 予約内容確認(非会員)
+	 * @param userInfoForm
+	 * @param result
+	 * @param stayInfoForm
+	 * @param model
+	 * @return
+	 */
+	@PostMapping(value = "/guest/reserve", params = "confirm")
+	public String confirmByGuest(@Validated UserInfoForm userInfoForm, BindingResult result, StayInfoForm stayInfoForm, Model model) {
+		
+		if (result.hasErrors()) {
+			return "camping/userInfo";
+		}
+		
+		StayInfo stayInfo = modelMapper.map(stayInfoForm, StayInfo.class);
+		// 予約内容確認情報取得
+		UserInfo userInfo = modelMapper.map(userInfoForm, UserInfo.class);
+		Reservation reservation = reserveAppService.buildReservation(stayInfo, userInfo);
+		
+		model.addAttribute("guestFlg", true);
+		model.addAttribute("reservation", reservation);
+		model.addAttribute("userInfoForm", userInfoForm);
+		
+		return "camping/confirm";
 	}
 }
