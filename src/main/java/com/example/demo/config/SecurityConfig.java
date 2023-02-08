@@ -27,6 +27,12 @@ public class SecurityConfig {
 			.authorizeHttpRequests(auth -> auth
 					// cssやjsなどの静的リソースをアクセス可能にする
 					.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+					.requestMatchers("/", "/logout").permitAll()
+					.requestMatchers("/login", "/login/guest").anonymous()
+					.requestMatchers("/signup/**").permitAll()
+					.requestMatchers("/camping/member/**").authenticated()
+					.requestMatchers("/camping/**").permitAll()
+					.requestMatchers("/api/**").permitAll()
 					// 認証の必要があるように設定
 					.anyRequest().authenticated())
 			.formLogin();
