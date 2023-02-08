@@ -31,12 +31,14 @@ public class ReservationDetail {
 	private String rateTypeName;
 	
 	public ReservationDetail(LocalDate reservationDate, SiteRate siteRate) {
+		
 		if (reservationDate == null || siteRate == null) {
 			throw new IllegalArgumentException("必須項目が設定されていません。");
 		}
+		
 		this.reservationDate = reservationDate;
 		this.siteRate = siteRate.getRate();
 		this.taxRate = siteRate.getTaxRate();
-		this.rateTypeName = siteRate.getRateType().getName();;
+		this.rateTypeName = siteRate.getRateType().getName();
 	}
 }

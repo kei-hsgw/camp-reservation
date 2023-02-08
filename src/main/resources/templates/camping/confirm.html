@@ -65,7 +65,7 @@
             <div class="p-2 d-flex">
               <div class="col-7">合計金額</div>
               <div class="col-5 text-right" id="totalAmount" name="totalAmount"
-                th:text="|${#numbers.formatInteger(reservation.totalAmountTaxIn, 3, 'COMMA')}円|"></div>
+                th:text="|${#numbers.formatInteger(reservation.totalAmountTaxIncl, 3, 'COMMA')}円|"></div>
             </div>
             <!-- 内消費税 -->
             <div class="p-2 d-flex pt-3">
@@ -92,10 +92,6 @@
               th:object="${userInfoForm}" method="post">
               <div class="form-group row pt-2">
                 <button class="btn btn-primary btn-block py-2 mx-md-3" type="submit">確定</button>
-                <button sec:authorize="!isAuthenticated()" class="btn btn-secondary  btn-block py-2 mx-md-3"
-                  type="submit" name="redoUserInfo">戻る</button>
-                <button sec:authorize="isAuthenticated()" class="btn btn-secondary  btn-block py-2 mx-md-3"
-                  type="submit" name="redoSiteInfo">戻る</button>
               </div>
               <input type="hidden" name="siteTypeId" th:value="${stayInfoForm.siteTypeId}">
               <input type="hidden" name="dateFrom" th:value="${stayInfoForm.dateFrom}">

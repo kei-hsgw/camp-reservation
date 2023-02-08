@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.model.Member;
 import com.example.demo.domain.model.Reservation;
@@ -13,6 +14,9 @@ import com.example.demo.domain.model.SiteRate;
 import com.example.demo.domain.model.StayInfo;
 import com.example.demo.domain.model.UserInfo;
 import com.example.demo.domain.service.MemberService;
+import com.example.demo.domain.service.ReservationDetailService;
+import com.example.demo.domain.service.ReservationService;
+import com.example.demo.domain.service.SiteAvailabilityService;
 import com.example.demo.domain.service.SiteRateService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,11 +25,15 @@ import lombok.RequiredArgsConstructor;
  * キャンプ予約 Application Service
  */
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class ReserveAppService {
 	
 	private final MemberService memberService;
 	private final SiteRateService siteRateService;
+	private final ReservationService reservationService;
+	private final ReservationDetailService reservationDetailService;
+	private final SiteAvailabilityService siteAvailabilityService;
 
 	/**
 	 * 会員情報取得（ID指定）
@@ -46,19 +54,15 @@ public class ReserveAppService {
 	 */
 	public Reservation buildReservation(StayInfo stayInfo, UserInfo userInfo) {
 		
-		Reservation reservation = new Reservation(
-				stayInfo.getSiteTypeId(),
-				stayInfo.getDateFrom(),
-				stayInfo.getStayDays(),
-				stayInfo.getNumberOfPeople(),
-				null,
-				null,
-				userInfo.getId(),
-				userInfo.getName(),
-				userInfo.getMail(),
-				userInfo.getPhoneNumber());
-		
-		// 予約詳細リストを生成
+		Reservation reservation = new Reservation();
+		reservation.setSiteTypeId(stayInfo.getSiteTypeId());
+		reservation.setDateFrom(stayInfo.getDateFrom());
+		reservation.setStayDays(stayInfo.getStayDays());
+		reservation.setNumberOfPeople(stayInfo.getNumberOfPeople());
+		reservation.setMemberId(userInfo.getId());
+		reservation.setNonMemberName(userInfo.getName());
+		reservation.setNonMemberMail(userInfo.getMail());
+		reservation.setNonMemberPhoneNumber(userInfo.getPhoneNumber());
 		reservation.setReservationDetails(this.makeReservationDetail(stayInfo));
 		reservation.calcTotalAmountTaxInAndSalesTax();
 		
@@ -79,5 +83,38 @@ public class ReserveAppService {
 			
 			return new ReservationDetail(date, siteRate);
 		}).collect(Collectors.toList());
+	}
+	
+	/**
+	 * キャンプ予約 
+	 * サイト空き状況の在庫を減らし、予約調整を行う
+	 * @param reservation
+	 */
+	public void saveReservation(Reservation reservation) {
+		
+		StayInfo stayInfo = new StayInfo();
+		stayInfo.setSiteTypeId(reservation.getSiteTypeId());
+		stayInfo.setDateFrom(reservation.getDateFrom());
+		stayInfo.setStayDays(reservation.getStayDays());
+		stayInfo.setNumberOfPeople(reservation.getNumberOfPeople());
+		
+		// サイト空き状況の在庫を減らし、サイトを確保
+		this.reduceAvailabilityCount(stayInfo);
+		// 予約登録
+		reservationService.createReservation(reservation);
+		// 予約詳細登録
+		reservationDetailService.createReservationDetails(reservation.getReservationDetails(), reservation.getId());
+	}
+	
+	/**
+	 * サイト空き状況減算処理
+	 * @param stayInfo
+	 */
+	private void reduceAvailabilityCount(StayInfo stayInfo) {
+		int updateCount = siteAvailabilityService.reduceAvailabilityCount(stayInfo.getSiteTypeId(), stayInfo.getDateFrom(), stayInfo.getDateTo());
+		
+		if (updateCount != stayInfo.getStayDays()) {
+			throw new RuntimeException();
+		}
 	}
 }

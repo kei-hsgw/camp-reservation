@@ -38,7 +38,7 @@ public class Reservation {
 	private Integer numberOfPeople;
 	
 	/** 合計金額(税込) */
-	private BigDecimal totalAmountTaxIn;
+	private BigDecimal totalAmountTaxIncl;
 	
 	/** 消費税 */
 	private BigDecimal salesTax;
@@ -69,49 +69,6 @@ public class Reservation {
 	
 	/** ReservationDetailの情報 */
 	private List<ReservationDetail> reservationDetails;
-	
-	public Reservation(
-			Integer siteTypeId, LocalDate dateFrom, Integer stayDays,
-			Integer numberOfPeople, BigDecimal totalAmountTaxIn, BigDecimal salesTax,
-			Integer memberId, String nonMemberName, String nonMemberMail,
-			String nonMemberPhoneNumber
-	) {
-		if (siteTypeId == null || dateFrom == null || stayDays == null ||
-			numberOfPeople == null) {
-			throw new IllegalArgumentException("必須項目が設定されていません。");
-		}
-
-		if (!isValidUserInfo(memberId, nonMemberName, nonMemberMail, nonMemberPhoneNumber)) {
-			throw new IllegalArgumentException("引数が不正です。");
-		}
-
-		this.siteTypeId = siteTypeId;
-		this.dateFrom = dateFrom;
-		this.stayDays = stayDays;
-		this.numberOfPeople = numberOfPeople;
-		this.totalAmountTaxIn = totalAmountTaxIn;
-		this.salesTax = salesTax;
-		this.memberId = memberId;
-		this.nonMemberName = nonMemberName;
-		this.nonMemberMail = nonMemberMail;
-		this.nonMemberPhoneNumber = nonMemberPhoneNumber;
-	}
-	
-	/**
-	 * ユーザー情報期限判定
-	 * 会員IDが設定済みかつ非会員情報が設定済みの場合false
-	 * 会員IDが未設定かつ非会員情報が設定済みの場合false
-	 * それ以外はtrue
-	 * @param memberId 会員ID
-	 * @param nonMemberName 名前（非会員）
-	 * @param nonMemberMail	メールアドレス（非会員）
-	 * @param nonMemberPhoneNumber 電話番号（非会員）
-	 * @return
-	 */
-	private boolean isValidUserInfo(Integer memberId, String nonMemberName, String nonMemberMail, String nonMemberPhoneNumber) {
-		return (memberId != null && nonMemberName == null && nonMemberMail == null && nonMemberPhoneNumber == null)
-				|| (memberId == null && nonMemberName != null && nonMemberMail != null && nonMemberPhoneNumber != null);
-	}
 	
 	/**
 	 * キャンセル期限判定
@@ -163,7 +120,7 @@ public class Reservation {
 		}
 
 		// 合計金額（税込）端数処理完了
-		setTotalAmountTaxIn(totalAmountTaxInBeforeRounding.setScale(0, RoundingMode.FLOOR));
-		setSalesTax(totalAmountTaxIn.subtract(totalAmount));
+		setTotalAmountTaxIncl(totalAmountTaxInBeforeRounding.setScale(0, RoundingMode.FLOOR));
+		setSalesTax(totalAmountTaxIncl.subtract(totalAmount));
 	}
 }
