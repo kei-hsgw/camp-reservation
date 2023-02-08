@@ -141,6 +141,37 @@ public class CampingController {
 		return "camping/confirm";
 	}
 	
+	/**
+	 * 予約(会員)
+	 * @param authenticatedMember
+	 * @param stayInfoForm
+	 * @return
+	 */
+	@PostMapping("/member/reserve")
+	public String reserveByMember(@AuthenticationPrincipal AuthenticatedMember authenticatedMember, StayInfoForm stayInfoForm) {
+		
+		StayInfo stayInfo = modelMapper.map(stayInfoForm, StayInfo.class);
+		
+		// ユーザ情報設定
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(authenticatedMember.getId());
+		
+		// 予約
+		Reservation reservation = reserveAppService.buildReservation(stayInfo, userInfo);
+		reserveAppService.saveReservation(reservation);
+		
+		return "redirect:/camping/member/reserve?complete";
+	}
+	
+	/**
+	 * 予約完了画面表示(会員)
+	 * @return
+	 */
+	@GetMapping(value = "/member/reserve", params = "complete")
+	public String completeByMember() {
+		return "camping/complete";
+	}
+	
 	// -------------------- Guest Reservation --------------------
 	
 	/**
@@ -195,5 +226,32 @@ public class CampingController {
 		model.addAttribute("userInfoForm", userInfoForm);
 		
 		return "camping/confirm";
+	}
+	
+	/**
+	 * 予約(非会員)
+	 * @param stayInfoForm
+	 * @param userInfoForm
+	 * @return
+	 */
+	@PostMapping("/guest/reserve")
+	public String reserveByGuest(StayInfoForm stayInfoForm, UserInfoForm userInfoForm) {
+		
+		// 予約
+		StayInfo stayInfo = modelMapper.map(stayInfoForm, StayInfo.class);
+		UserInfo userInfo = modelMapper.map(userInfoForm, UserInfo.class);
+		Reservation reservation = reserveAppService.buildReservation(stayInfo, userInfo);
+		reserveAppService.saveReservation(reservation);
+		
+		return "redirect:/camping/guest/reserve?complete";
+	}
+	
+	/**
+	 * 予約完了画面表示(非会員)
+	 * @return
+	 */
+	@GetMapping(value = "/guest/reserve", params = "complete")
+	public String completeByGuest() {
+		return "camping/complete";
 	}
 }
