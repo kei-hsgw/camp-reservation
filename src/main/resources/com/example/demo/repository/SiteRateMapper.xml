@@ -27,4 +27,45 @@
       sr.site_type_id
   </select>
 
+  <!-- 料金形態取得 -->
+  <select id="findSiteRate" resultMap="siteRate">
+    select
+      sr.site_type_id
+      , rt.id
+      , rt.name
+      , sr.rate
+      , (select rate from sales_tax where #{date} between date_from and date_to) as tax_rate
+    from
+      calendar as c
+    join
+      rate_types as rt
+    on
+      c.rate_type_id = rt.id
+    join
+      site_rates as sr
+    on 
+      c.rate_type_id = sr.rate_type_id
+    where
+      c.calendar_date = #{date}
+      and sr.site_type_id = #{siteTypeId}
+      and #{date} between sr.date_from and sr.date_to
+  </select>
+
+  <resultMap id="siteRate" type="SiteRate">
+    <id column="site_type_id" property="siteTypeId"/>
+    <id column="rate_type_id" property="rateTypeId"/>
+    <id column="date_from" property="dateFrom"/>
+    <result column="rate" property="rate"/>
+    <result column="tax_rate" property="taxRate"/>
+    <association property="siteType" javaType="SiteType">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="capacity" property="capacity"/>
+    </association>
+    <association property="rateType" javaType="RateType">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+    </association>
+  </resultMap>
+
 </mapper>

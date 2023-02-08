@@ -20,6 +20,24 @@
       mail = #{mail}
   </select>
 
+  <!-- 会員情報取得(会員ID) -->
+  <select id="findById" resultType="Member">
+    select
+      id
+      , name
+      , mail
+      , password
+      , phone_number
+      , role
+      , updated_at
+      , created_at
+    from
+      members
+    where
+      id = #{memberId}
+  </select>
+
+
   <!-- 新規会員登録 -->
   <insert id="createMember">
     insert into members (

@@ -1,10 +1,12 @@
 package com.example.demo.domain.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.model.SiteRate;
 import com.example.demo.domain.model.SiteRatePivot;
 import com.example.demo.repository.SiteRateMapper;
 
@@ -26,5 +28,15 @@ public class SiteRateService {
 	 */
 	public List<SiteRatePivot> findAllSiteRatePivot() {
 		return siteRateMapper.findAllSiteRatePivot();
+	}
+	
+	/**
+	 * サイト料金取得
+	 * @param siteTypeId
+	 * @param date
+	 * @return
+	 */
+	public SiteRate findSiteRate(int siteTypeId, LocalDate date) {
+		return siteRateMapper.findSiteRate(siteTypeId, date);
 	}
 }

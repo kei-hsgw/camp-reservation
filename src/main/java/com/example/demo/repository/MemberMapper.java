@@ -17,6 +17,13 @@ public interface MemberMapper {
 	public Optional<Member> findByMail(String mail);
 	
 	/**
+	 * 会員情報取得
+	 * @param memberId 会員ID
+	 * @return
+	 */
+	public Optional<Member> findById(int memberId);
+	
+	/**
 	 * 会員登録
 	 * @param member 会員情報
 	 */
