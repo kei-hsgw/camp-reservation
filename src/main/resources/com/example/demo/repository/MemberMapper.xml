@@ -73,4 +73,13 @@
       id = #{id}
   </update>
 
+  <!-- パスワード変更 -->
+  <update id="updatePassword">
+    update members
+    set
+      password = #{encodePassword}
+    where
+      id = #{memberId}
+  </update>
+
 </mapper>

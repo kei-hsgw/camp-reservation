@@ -66,4 +66,16 @@ public class MemberService {
 	public void updateMail(Member member) {
 		memberMapper.updateMail(member);
 	}
+	
+	/**
+	 * パスワード変更
+	 * @param memberId
+	 * @param newPassword
+	 */
+	public void updatePassword(int memberId, String newPassword) {
+		
+		String encodePassword = passwordEncoder.encode(newPassword);
+		
+		memberMapper.updatePassword(memberId, encodePassword);
+	}
 }
