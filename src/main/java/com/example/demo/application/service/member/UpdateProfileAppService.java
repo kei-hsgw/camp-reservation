@@ -36,6 +36,6 @@ public class UpdateProfileAppService {
 		member.setPhoneNumber(newMember.getPhoneNumber());
 		
 		// 会員基本情報更新
-		memberService.update(member);
+		memberService.updateProfile(member);
 	}
 }

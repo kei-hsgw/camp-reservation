@@ -55,11 +55,20 @@
   </insert>
 
   <!-- 会員基本情報更新 -->
-  <update id="update">
+  <update id="updateProfile">
     update members
     set
       name = #{name}
       , phone_number = #{phoneNumber}
+    where
+      id = #{id}
+  </update>
+
+  <!-- メールアドレス変更 -->
+  <update id="updateMail">
+    update members
+    set
+      mail = #{mail}
     where
       id = #{id}
   </update>
