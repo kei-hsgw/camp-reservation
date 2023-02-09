@@ -60,9 +60,6 @@ public class ReserveAppService {
 		reservation.setStayDays(stayInfo.getStayDays());
 		reservation.setNumberOfPeople(stayInfo.getNumberOfPeople());
 		reservation.setMemberId(userInfo.getId());
-		reservation.setNonMemberName(userInfo.getName());
-		reservation.setNonMemberMail(userInfo.getMail());
-		reservation.setNonMemberPhoneNumber(userInfo.getPhoneNumber());
 		reservation.setReservationDetails(this.makeReservationDetail(stayInfo));
 		reservation.calcTotalAmountTaxInAndSalesTax();
 		

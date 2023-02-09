@@ -88,7 +88,7 @@
             </div>
           </div>
           <div class="row">
-            <form th:action="@{/camping/{param}/reserve(param=${guestFlg ? 'guest' : 'member'})}" class="col-md-12"
+            <form th:action="@{/camping/member/reserve}" class="col-md-12"
               th:object="${userInfoForm}" method="post">
               <div class="form-group row pt-2">
                 <button class="btn btn-primary btn-block py-2 mx-md-3" type="submit">確定</button>

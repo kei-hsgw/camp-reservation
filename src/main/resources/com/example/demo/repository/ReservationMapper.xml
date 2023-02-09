@@ -13,9 +13,6 @@
       , total_amount_tax_incl
       , sales_tax
       , member_id
-      , non_member_name
-      , non_member_mail
-      , non_member_phone_number
     ) values (
       #{siteTypeId}
       , #{dateFrom}
@@ -24,9 +21,6 @@
       , #{totalAmountTaxIncl}
       , #{salesTax}
       , #{memberId}
-      , #{nonMemberName}
-      , #{nonMemberMail}
-      , #{nonMemberPhoneNumber}
     )
   </insert>
 

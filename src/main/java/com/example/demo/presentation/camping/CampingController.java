@@ -133,7 +133,6 @@ public class CampingController {
 		
 		UserInfoForm userInfoForm = modelMapper.map(member, UserInfoForm.class);
 		
-		model.addAttribute("guestFlg", false);
 		model.addAttribute("reservation", reservation);
 		model.addAttribute("userInfoForm", userInfoForm);
 		model.addAttribute("stayInfoForm", stayInfoForm);
@@ -169,89 +168,6 @@ public class CampingController {
 	 */
 	@GetMapping(value = "/member/reserve", params = "complete")
 	public String completeByMember() {
-		return "camping/complete";
-	}
-	
-	// -------------------- Guest Reservation --------------------
-	
-	/**
-	 * 宿泊情報を予約者情報フォーム表示（非会員）に引き継ぎ
-	 * @param stayInfoForm
-	 * @param result
-	 * @return
-	 */
-	@PostMapping(value = "/stayInfo", params = "guest")
-	public String sendToGuestReserve(@Validated StayInfoForm stayInfoForm, BindingResult result) {
-		
-		if (result.hasErrors()) {
-			return "camping/stayInfo";
-		}
-		
-		return "forward:/camping/guest/reserve?stayInfoForm";
-	}
-	
-	/**
-	 * 予約者情報フォーム表示(非会員)
-	 * @param stayInfoForm
-	 * @param userInfoForm
-	 * @return
-	 */
-	@PostMapping(value = "/guest/reserve", params = "stayInfoForm")
-	public String userInfoByGuest(StayInfoForm stayInfoForm, UserInfoForm userInfoForm) {
-		return "camping/userInfo";
-	}
-	
-	/**
-	 * 予約内容確認(非会員)
-	 * @param userInfoForm
-	 * @param result
-	 * @param stayInfoForm
-	 * @param model
-	 * @return
-	 */
-	@PostMapping(value = "/guest/reserve", params = "confirm")
-	public String confirmByGuest(@Validated UserInfoForm userInfoForm, BindingResult result, StayInfoForm stayInfoForm, Model model) {
-		
-		if (result.hasErrors()) {
-			return "camping/userInfo";
-		}
-		
-		StayInfo stayInfo = modelMapper.map(stayInfoForm, StayInfo.class);
-		// 予約内容確認情報取得
-		UserInfo userInfo = modelMapper.map(userInfoForm, UserInfo.class);
-		Reservation reservation = reserveAppService.buildReservation(stayInfo, userInfo);
-		
-		model.addAttribute("guestFlg", true);
-		model.addAttribute("reservation", reservation);
-		model.addAttribute("userInfoForm", userInfoForm);
-		
-		return "camping/confirm";
-	}
-	
-	/**
-	 * 予約(非会員)
-	 * @param stayInfoForm
-	 * @param userInfoForm
-	 * @return
-	 */
-	@PostMapping("/guest/reserve")
-	public String reserveByGuest(StayInfoForm stayInfoForm, UserInfoForm userInfoForm) {
-		
-		// 予約
-		StayInfo stayInfo = modelMapper.map(stayInfoForm, StayInfo.class);
-		UserInfo userInfo = modelMapper.map(userInfoForm, UserInfo.class);
-		Reservation reservation = reserveAppService.buildReservation(stayInfo, userInfo);
-		reserveAppService.saveReservation(reservation);
-		
-		return "redirect:/camping/guest/reserve?complete";
-	}
-	
-	/**
-	 * 予約完了画面表示(非会員)
-	 * @return
-	 */
-	@GetMapping(value = "/guest/reserve", params = "complete")
-	public String completeByGuest() {
 		return "camping/complete";
 	}
 }
