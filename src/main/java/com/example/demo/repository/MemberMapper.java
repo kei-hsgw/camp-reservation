@@ -28,4 +28,10 @@ public interface MemberMapper {
 	 * @param member 会員情報
 	 */
 	public void createMember(Member member);
+	
+	/**
+	 * 会員基本情報更新
+	 * @param member 更新後会員情報
+	 */
+	public void update(Member member);
 }

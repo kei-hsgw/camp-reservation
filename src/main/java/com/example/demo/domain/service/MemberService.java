@@ -12,6 +12,9 @@ import com.example.demo.security.Role;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 会員 Domain Service
+ */
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -46,5 +49,13 @@ public class MemberService {
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		member.setRole(Role.ROLE_GENERAL.toString());
 		memberMapper.createMember(member);
+	}
+	
+	/**
+	 * 会員基本情報更新
+	 * @param member 更新後会員情報
+	 */
+	public void update(Member member) {
+		memberMapper.update(member);
 	}
 }
