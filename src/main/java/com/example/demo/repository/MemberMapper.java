@@ -33,5 +33,11 @@ public interface MemberMapper {
 	 * 会員基本情報更新
 	 * @param member 更新後会員情報
 	 */
-	public void update(Member member);
+	public void updateProfile(Member member);
+	
+	/**
+	 * メールアドレス変更
+	 * @param member
+	 */
+	public void updateMail(Member member);
 }
