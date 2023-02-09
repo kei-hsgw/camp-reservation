@@ -40,4 +40,11 @@ public interface MemberMapper {
 	 * @param member
 	 */
 	public void updateMail(Member member);
+	
+	/**
+	 * パスワード変更
+	 * @param memberId
+	 * @param encodePassword
+	 */
+	public void updatePassword(int memberId, String encodePassword);
 }
