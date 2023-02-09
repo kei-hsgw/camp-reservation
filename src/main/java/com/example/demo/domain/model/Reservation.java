@@ -46,15 +46,6 @@ public class Reservation {
 	/** 会員ID */
 	private Integer memberId;
 	
-	/** 名前(非会員) */
-	private String nonMemberName;
-	
-	/** メールアドレス(非会員) */
-	private String nonMemberMail;
-	
-	/** 電話番号(非会員) */
-	private String nonMemberPhoneNumber;
-	
 	/** キャンセル日 */
 	private LocalDateTime canceledAt;
 	

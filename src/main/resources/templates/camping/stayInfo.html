@@ -68,7 +68,6 @@
             <div class="col-md-5 offset-md-3">
               <button sec:authorize="isAuthenticated()" class="btn btn-primary btn-block py-2" type="submit" name="member">予約に進む</button>
               <button sec:authorize="!isAuthenticated()" class="btn btn-primary btn-block py-2" type="submit" name="member">ログインして予約に進む</button>
-              <button sec:authorize="!isAuthenticated()" class="btn btn-primary btn-block py-2" type="submit" name="guest">会員登録せずに予約に進む</button>
               <input type="button" value="戻る" class="btn btn-secondary btn-block py-2 mr-md-5" onclick="backward()">
             </div>
           </div>
