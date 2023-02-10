@@ -32,7 +32,7 @@
           </div>
           <!-- 宿泊日数 -->
           <div class="form-group row">
-            <label for="stayDays" class="col-md-3 col-form-label">宿泊日数</label>
+            <label for="stayDays" class="col-md-3 col-form-label">宿泊日数 <span class="badge rounded-pill bg-warning text-dark">必須</span></label>
             <div class="col-md-5">
               <select class="form-control" th:field="*{stayDays}" th:errorclass="is-invalid">
                 <option value="1" selected>1</option>
@@ -51,7 +51,7 @@
           </div>
           <!-- 人数 -->
           <div class="form-group row">
-            <label for="numberOfPeople" class="col-md-3 col-form-label">人数</label>
+            <label for="numberOfPeople" class="col-md-3 col-form-label">人数 <span class="badge rounded-pill bg-warning text-dark">必須</span></label>
             <div class="col-md-5">
               <select class="form-control" th:field="*{numberOfPeople}" th:errorclass="is-invalid">
                 <option value="1" selected>1</option>

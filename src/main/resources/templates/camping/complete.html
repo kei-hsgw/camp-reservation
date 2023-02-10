@@ -11,15 +11,13 @@
   <main layout:fragment="content">
     <div class="container">
       <h3 class="page-title">予約完了</h3>
-      <div class="d-flex flex-column align-items-center">
-        <div class="mb-3">
-          <h4>予約が完了しました！</h4>
-        </div>
-        <div class="col-md-3">
-          <form th:action="@{/}" method="get">
-            <button class="btn btn-primary btn-block p-2" type="submit">トップページへ</button>
-          </form>
-        </div>
+      <div class="mb-3">
+        <p>予約が完了しました！</p>
+      </div>
+      <div class="col-md-3">
+        <form th:action="@{/}" method="get">
+          <button class="btn btn-primary btn-block p-2" type="submit">トップページへ</button>
+        </form>
       </div>
     </div>
   </main>

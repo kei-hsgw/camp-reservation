@@ -33,7 +33,7 @@
               </tr>
             </tbody>
           </table>
-          <div class="text-right">
+          <div>
             <p><small>※ハイシーズン：7月1日〜9月30日</small></p>
           </div>
         </div>
@@ -43,12 +43,13 @@
         <div class="py-2">
           <ul>
             <li>ご予約は、翌日〜90日間までを受け付けております。</li>
-            <li>ご予約のキャンセルは、マイページにてチェックインの3日前まで可能です。これ以降のキャンセルは、お電話にて受け付けております。</li>
+            <li>ご予約のキャンセルは、マイページにてチェックインの３日前まで可能です。それ以降のキャンセルは、お電話にて受け付けております。</li>
           </ul>
         </div>
       </section>
-      <div>
-        <a th:href="@{/camping/siteTypes}" class="btn btn-lg btn-outline-primary btn-block py-3" role="button">サイトを選ぶ</a>
+      <div class="d-grid gap-2">
+        <a class="btn btn-outline-primary btn-block py-3" role="button"
+          th:href="@{/camping/siteTypes}">サイトを選ぶ</a>
       </div>
     </div>
   </main>
