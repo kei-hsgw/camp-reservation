@@ -7,7 +7,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.application.service.member.ReservationsAppService;
 import com.example.demo.domain.model.Reservation;
@@ -37,9 +40,37 @@ public class ReservationsController {
 		
 		// 予約検索(ページネーション)
 		Page<Reservation> page = reservationsAppService.searchReservations(authenticatedMember.getId(), pageable);
-		System.out.println(page.getContent());
+		
 		model.addAttribute("page", page);
 		
 		return "member/reservations/list";
+	}
+	
+	
+	@GetMapping(value = "/{reservationId}", params = "page")
+	public String detail(@PathVariable int reservationId, @RequestParam("page") int pageNumber, Model model) {
+		
+		model.addAttribute("reservation", reservationsAppService.findReservationDetailsById(reservationId));
+		model.addAttribute("pageNumber", pageNumber);
+		
+		return "member/reservations/detail";
+	}
+	
+	/**
+	 * 予約キャンセル
+	 * @param reservationId
+	 * @return
+	 */
+	@PostMapping("/{reservationId}/cancel")
+	public String cancel(@PathVariable int reservationId) {
+		
+		// 予約キャンセル
+		int canceledCount = reservationsAppService.cancelReservation(reservationId);
+		
+		if (canceledCount == 0) {
+			throw new RuntimeException();
+		}
+		
+		return "member/reservations/complete";
 	}
 }

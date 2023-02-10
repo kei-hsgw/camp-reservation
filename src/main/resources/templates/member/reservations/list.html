@@ -57,7 +57,8 @@
               <td th:text="${reservation.numberOfPeople}"></td>
               <td th:text="${reservation.isCanceled() ? 'キャンセル' : '-' }"></td>
               <td>
-                <!-- <a th:href="@{/member/reservations/{id}(page=${page.number}, id=${reservation.id)}" class="btn btn-primary detail-btn">詳細</a> -->
+                <a th:href="@{/member/reservations/{reservationId}(reservationId=${reservation.id}, page=${page.number})}"
+                  class="btn btn-primary detail-btn">詳細</a>
               </td>
             </tr>
           </tbody>

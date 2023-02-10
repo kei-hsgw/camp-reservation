@@ -18,9 +18,6 @@ main > .container {
   padding-top: 30px;
   margin-bottom: 2.0rem;
 }
-.footer-text {
-  margin-bottom: 0;
-}
 .form-control-plaintext:disabled {
   -webkit-text-fill-color: #212529;
   opacity: 1;
@@ -29,10 +26,6 @@ main > .container {
 /* サイトタイプ一覧 */
 .siteRatesTable {
   max-width: auto;
-}
-.card-horizontal {
-  display: flex;
-  flex: 1 1 auto;
 }
 .siteType-card-body {
   padding-bottom: 13px;
@@ -46,11 +39,6 @@ main > .container {
   #login {
     margin-top: 30px;
   }
-}
-
-/* 予約完了 */
-.camp-complete-img {
-  border-radius: 5%;
 }
 
 /* 予約一覧 */

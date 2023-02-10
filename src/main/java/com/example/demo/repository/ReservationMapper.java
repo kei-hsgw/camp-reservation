@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.Pageable;
@@ -31,4 +32,18 @@ public interface ReservationMapper {
 	 * @return
 	 */
 	public int countByMemberId(int memberId);
+	
+	/**
+	 * 予約詳細取得
+	 * @param reservationId 予約ID
+	 * @return
+	 */
+	public Optional<Reservation> findReservationDetailsById(int reservationId);
+	
+	/**
+	 * 予約キャンセル
+	 * @param reservationId
+	 * @return
+	 */
+	public int cancelReservation(int reservationId);
 }

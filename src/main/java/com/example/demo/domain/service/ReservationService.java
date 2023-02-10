@@ -1,6 +1,7 @@
 package com.example.demo.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,5 +44,23 @@ public class ReservationService {
 		int count = reservationMapper.countByMemberId(memberId);
 		
 		return new PageImpl<>(reservationList, pageable, count);
+	}
+	
+	/**
+	 * 予約詳細取得
+	 * @param reservationId 予約ID
+	 * @return
+	 */
+	public Optional<Reservation> findReservationDetailsById(int reservationId) {
+		return reservationMapper.findReservationDetailsById(reservationId);
+	}
+	
+	/**
+	 * 予約キャンセル
+	 * @param reservationId 予約ID
+	 * @return
+	 */
+	public int cancelReservation(int reservationId) {
+		return reservationMapper.cancelReservation(reservationId);
 	}
 }
