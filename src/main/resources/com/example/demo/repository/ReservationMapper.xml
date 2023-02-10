@@ -24,4 +24,74 @@
     )
   </insert>
 
+  <!-- 予約情報取得(ページネーション) -->
+  <select id="findPageByMemberId" resultMap="reservation">
+    select
+      r.id
+      , r.site_type_id
+      , r.date_from
+      , r.stay_days
+      , r.number_of_people
+      , r.canceled_at
+      , r.created_at
+      , st.name
+    from
+      reservations as r
+    inner join
+      site_types st
+    on
+      r.site_type_id = st.id
+    where
+      r.member_id = #{memberId}
+    order by
+      r.date_from desc
+      , r.id desc
+    limit
+      #{pageable.pageSize}
+    offset
+      #{pageable.offset}
+  </select>
+
+  <!-- 予約数取得 -->
+  <select id="countByMemberId" resultType="int">
+    select
+      count(*)
+    from
+      reservations
+    where
+      member_id = #{memberId}
+  </select>
+
+  <resultMap id="reservation" type="Reservation">
+    <id column="id" property="id"/>
+    <result column="site_type_id" property="siteTypeId"/>
+    <result column="date_from" property="dateFrom"/>
+    <result column="stay_days" property="stayDays"/>
+    <result column="number_of_people" property="numberOfPeople"/>
+    <result column="total_amount_tax_incl" property="totalAmountTaxIncl"/>
+    <result column="sales_tax" property="salesTax"/>
+    <result column="member_id" property="memberId"/>
+    <result column="canceled_at" property="canceledAt"/>
+    <result column="created_at" property="createdAt"/>
+    <association property="siteType" javaType="SiteType">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="capacity" property="capacity"/>
+    </association>
+    <association property="member" javaType="Member">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="mail" property="mail"/>
+      <result column="phone_number" property="phoneNumber"/>
+    </association>
+    <collection property="reservationDetails" resultMap="reservationDetail"/>
+  </resultMap>
+  <resultMap id="reservationDetail" type="ReservationDetail">
+    <id column="reservation_id" property="reservationId"/>
+    <id column="reservation_date" property="reservationDate"/>
+    <result column="site_rate" property="siteRate"/>
+    <result column="tax_rate" property="taxRate"/>
+    <result column="rate_type_name" property="rateTypeName"/>
+  </resultMap>
+
 </mapper>
