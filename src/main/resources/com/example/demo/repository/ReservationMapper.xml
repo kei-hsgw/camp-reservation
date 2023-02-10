@@ -75,10 +75,10 @@
       , r.member_id
       , r.canceled_at
       , r.created_at
-      , m.name
-      , m.mail
-      , m.phone_number
-      , st.name
+      , m.name as member_name
+      , m.mail as member_mail
+      , m.phone_number as member_phone_number
+      , st.name as site_type_name
       , rd.reservation_date
       , rd.site_rate
       , rd.tax_rate
@@ -124,12 +124,12 @@
     <result column="member_id" property="memberId"/>
     <result column="canceled_at" property="canceledAt"/>
     <result column="created_at" property="createdAt"/>
-    <association property="siteType" javaType="SiteType">
+    <association property="siteType" javaType="SiteType" columnPrefix="site_type_">
       <id column="id" property="id"/>
       <result column="name" property="name"/>
       <result column="capacity" property="capacity"/>
     </association>
-    <association property="member" javaType="Member">
+    <association property="member" javaType="Member" columnPrefix="member_">
       <id column="id" property="id"/>
       <result column="name" property="name"/>
       <result column="mail" property="mail"/>

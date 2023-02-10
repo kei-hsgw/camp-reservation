@@ -11,9 +11,10 @@
   <main layout:fragment="content">
     <div class="container">
       <h3 class="page-title">予約内容確認</h3>
-      <div class="row" th:with="stayInfo=${stayInfoForm}">
+      <div class="row">
         <div class="col-md-7 px-4">
           <section class="mb-5">
+            <!-- 予約者情報 -->
             <h4>予約者情報</h4>
             <!-- 名前 -->
             <div class="p-2 d-flex border-bottom">
@@ -31,6 +32,7 @@
               <div class="col-7 text-right" id="phoneNumber" th:text="${userInfoForm.phoneNumber}"></div>
             </div>
           </section>
+          <!-- 宿泊情報 -->
           <section class="mb-5">
             <h4>宿泊情報</h4>
             <!-- サイトタイプ -->
@@ -42,7 +44,7 @@
             <div class="p-2 d-flex border-bottom pt-3">
               <div class="col-5">チェックイン日</div>
               <div class="col-7 text-right" id="dateFrom"
-                th:text="${#temporals.format(stayInfoForm.dateFrom, 'YYYY年M月d日')}"></div>
+                th:text="${#temporals.format(stayInfoForm.dateFrom, 'yyyy年M月d日')}"></div>
             </div>
             <!-- 宿泊日数 -->
             <div class="p-2 d-flex border-bottom pt-3">
@@ -57,7 +59,7 @@
           </section>
         </div>
         <div class="col-md-5 px-4">
-          <div class="bg-right rounded pb-2 mb-3">
+          <div class="bg-light rounded pb-2 mb-3">
             <div class="p-2 ml-3">
               <h4>宿泊料金<span class="small">(現地精算)</span></h4>
             </div>
@@ -73,12 +75,13 @@
               <div class="col-5 text-right" id="salesTax" salesTax="tax"
                 th:text="|${#numbers.formatInteger(reservation.salesTax, 3, 'COMMA')}円|"></div>
             </div>
+            <!-- 内訳 -->
             <div class="p-2 ml-3 mt-4">
               <h5>内訳</h5>
             </div>
             <div th:each="detail : ${reservation.reservationDetails}">
               <div class="p-2 d-flex">
-                <div class="col-7" th:text="|${#temporals.format(detail.reservationDate, 'YYYY年M月d日')}分|"></div>
+                <div class="col-7" th:text="|${#temporals.format(detail.reservationDate, 'yyyy年M月d日')}分|"></div>
                 <div class="col-5 text-right" id="siteRate"
                   th:text="|${#numbers.formatInteger(detail.siteRate, 3, 'COMMA')}円|"></div>
               </div>
@@ -88,8 +91,7 @@
             </div>
           </div>
           <div class="row">
-            <form th:action="@{/camping/member/reserve}" class="col-md-12"
-              th:object="${userInfoForm}" method="post">
+            <form th:action="@{/camping/member/reserve}" class="col-md-12" th:object="${userInfoForm}" method="post">
               <div class="form-group row pt-2">
                 <button class="btn btn-primary btn-block py-2 mx-md-3" type="submit">確定</button>
               </div>
