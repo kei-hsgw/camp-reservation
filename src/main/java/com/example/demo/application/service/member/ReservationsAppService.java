@@ -27,4 +27,34 @@ public class ReservationsAppService {
 	public Page<Reservation> searchReservations(int memberId, Pageable pageable) {
 		return reservationService.searchReservations(memberId, pageable);
 	}
+	
+	/**
+	 * 予約詳細取得
+	 * @param reservationId 予約ID
+	 * @return
+	 */
+	public Reservation findReservationDetailsById(int reservationId) {
+		
+		return reservationService.findReservationDetailsById(reservationId)
+				.orElseThrow(() -> new RuntimeException());
+	}
+	
+	/**
+	 * 予約キャンセル
+	 * @param reservationId
+	 * @return
+	 */
+	public int cancelReservation(int reservationId) {
+		
+		// 権限確認
+		Reservation reservation = this.findReservationDetailsById(reservationId);
+		
+		// キャンセル済みまたはキャンセル期限を過ぎている場合はエラー
+		if (reservation.isCanceled() || !reservation.canCancel()) {
+			throw new RuntimeException();
+		}
+		
+		// 予約キャンセル
+		return reservationService.cancelReservation(reservationId);
+	}
 }

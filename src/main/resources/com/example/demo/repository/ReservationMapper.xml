@@ -62,6 +62,57 @@
       member_id = #{memberId}
   </select>
 
+  <!-- 予約詳細取得 -->
+  <select id="findReservationDetailsById" resultMap="reservation">
+    select
+      r.id
+      , r.site_type_id
+      , r.date_from
+      , r.stay_days
+      , r.number_of_people
+      , r.total_amount_tax_incl
+      , r.sales_tax
+      , r.member_id
+      , r.canceled_at
+      , r.created_at
+      , m.name
+      , m.mail
+      , m.phone_number
+      , st.name
+      , rd.reservation_date
+      , rd.site_rate
+      , rd.tax_rate
+      , rd.rate_type_name
+    from
+      reservations as r
+    inner join
+      site_types as st
+    on
+      r.site_type_id = st.id
+    inner join
+      members as m
+    on
+      r.member_id = m.id
+    inner join
+      reservation_details as rd
+    on
+      r.id = rd.reservation_id
+    where
+      r.id = #{reservationId}
+    order by
+      rd.reservation_date
+  </select>
+
+  <!-- 予約キャンセル -->
+  <update id="cancelReservation">
+    update
+      reservations
+    set
+      canceled_at = now()
+    where
+      id = #{reservationId}
+  </update>
+
   <resultMap id="reservation" type="Reservation">
     <id column="id" property="id"/>
     <result column="site_type_id" property="siteTypeId"/>
