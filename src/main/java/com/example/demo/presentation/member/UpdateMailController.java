@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,12 @@ import lombok.RequiredArgsConstructor;
 public class UpdateMailController {
 
 	private final UpdateMailAppService updateMailAppService;
+	private final UpdateMailFormValidator updateMailFormValidator;
+	
+	@InitBinder("updateMailForm")
+	public void initBinder(WebDataBinder binder) {
+		binder.addValidators(updateMailFormValidator);
+	}
 	
 	@ModelAttribute
 	public UpdateMailForm setUpUpdateMailForm() {

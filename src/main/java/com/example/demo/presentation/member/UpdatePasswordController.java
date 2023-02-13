@@ -4,7 +4,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,12 @@ import lombok.RequiredArgsConstructor;
 public class UpdatePasswordController {
 
 	private final UpdatePasswordAppService updatePasswordAppService;
+	private final UpdatePasswordFormValidator updatePasswordFormValidator;
+	
+	@InitBinder("updatePasswordForm")
+	public void initBinder(WebDataBinder binder) {
+		binder.addValidators(updatePasswordFormValidator);
+	}
 	
 	@ModelAttribute
 	public UpdatePasswordForm setUpUpdatePasswordForm() {
