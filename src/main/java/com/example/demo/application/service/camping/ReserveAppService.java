@@ -2,8 +2,10 @@ package com.example.demo.application.service.camping;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ import com.example.demo.domain.service.ReservationDetailService;
 import com.example.demo.domain.service.ReservationService;
 import com.example.demo.domain.service.SiteAvailabilityService;
 import com.example.demo.domain.service.SiteRateService;
+import com.example.demo.exception.BusinessException;
+import com.example.demo.exception.SystemException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,22 +38,23 @@ public class ReserveAppService {
 	private final ReservationService reservationService;
 	private final ReservationDetailService reservationDetailService;
 	private final SiteAvailabilityService siteAvailabilityService;
+	private final MessageSource messageSource;
 
 	/**
 	 * 会員情報取得（ID指定）
-	 * @param memberId
+	 * @param memberId 会員ID
 	 * @return
 	 */
 	public Member findMemberById(int memberId) {
 		
 		return memberService.findById(memberId)
-				.orElseThrow(() -> new RuntimeException());
+				.orElseThrow(() -> new SystemException(messageSource.getMessage("exception.dataNotFound", new String[] {String.valueOf(memberId)}, Locale.JAPAN)));
 	}
 	
 	/**
 	 * 予約情報組み立て
-	 * @param stayInfo
-	 * @param userInfo
+	 * @param stayInfo 宿泊情報
+	 * @param userInfo 会員情報
 	 * @return
 	 */
 	public Reservation buildReservation(StayInfo stayInfo, UserInfo userInfo) {
@@ -68,7 +73,7 @@ public class ReserveAppService {
 	
 	/**
 	 * 予約詳細リスト生成
-	 * @param stayInfo
+	 * @param stayInfo 宿泊情報
 	 * @return
 	 */
 	private List<ReservationDetail> makeReservationDetail(StayInfo stayInfo) {
@@ -85,7 +90,7 @@ public class ReserveAppService {
 	/**
 	 * キャンプ予約 
 	 * サイト空き状況の在庫を減らし、予約調整を行う
-	 * @param reservation
+	 * @param reservation 予約
 	 */
 	public void saveReservation(Reservation reservation) {
 		
@@ -105,13 +110,14 @@ public class ReserveAppService {
 	
 	/**
 	 * サイト空き状況減算処理
-	 * @param stayInfo
+	 * @param stayInfo 宿泊情報
 	 */
 	private void reduceAvailabilityCount(StayInfo stayInfo) {
+		
 		int updateCount = siteAvailabilityService.reduceAvailabilityCount(stayInfo.getSiteTypeId(), stayInfo.getDateFrom(), stayInfo.getDateTo());
 		
 		if (updateCount != stayInfo.getStayDays()) {
-			throw new RuntimeException();
+			throw new BusinessException(messageSource.getMessage("exception.siteIsNotAvailable", null, Locale.JAPAN));
 		}
 	}
 }

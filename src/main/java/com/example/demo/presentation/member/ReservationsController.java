@@ -1,5 +1,8 @@
 package com.example.demo.presentation.member;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.application.service.member.ReservationsAppService;
 import com.example.demo.domain.model.Reservation;
+import com.example.demo.exception.SystemException;
 import com.example.demo.security.AuthenticatedMember;
 
 import lombok.RequiredArgsConstructor;
@@ -27,10 +31,11 @@ import lombok.RequiredArgsConstructor;
 public class ReservationsController {
 
 	private final ReservationsAppService reservationsAppService;
+	private final MessageSource messageSource;
 	
 	/**
 	 * 予約一覧
-	 * @param authenticatedMember
+	 * @param authenticatedMember 認証済み会員情報
 	 * @param pageable
 	 * @param model
 	 * @return
@@ -46,7 +51,13 @@ public class ReservationsController {
 		return "member/reservations/list";
 	}
 	
-	
+	/**
+	 * 予約詳細
+	 * @param reservationId 予約ID
+	 * @param pageNumber 
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/{reservationId}", params = "page")
 	public String detail(@PathVariable int reservationId, @RequestParam("page") int pageNumber, Model model) {
 		
@@ -58,7 +69,7 @@ public class ReservationsController {
 	
 	/**
 	 * 予約キャンセル
-	 * @param reservationId
+	 * @param reservationId 予約ID
 	 * @return
 	 */
 	@PostMapping("/{reservationId}/cancel")
@@ -68,7 +79,7 @@ public class ReservationsController {
 		int canceledCount = reservationsAppService.cancelReservation(reservationId);
 		
 		if (canceledCount == 0) {
-			throw new RuntimeException();
+			throw new SystemException(messageSource.getMessage("exception.errorAtCancel", null, Locale.JAPAN));
 		}
 		
 		return "member/reservations/complete";

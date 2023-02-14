@@ -22,7 +22,7 @@ public class MenuController {
 	
 	/**
 	 * 会員メニュー表示
-	 * @param authenticatedMember
+	 * @param authenticatedMember 認証済み会員
 	 * @param model
 	 * @return
 	 */

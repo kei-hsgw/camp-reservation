@@ -48,7 +48,7 @@ public class UpdatePasswordFormValidator implements Validator {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (!passwordEncoder.matches(currentPassword, ((AuthenticatedMember) auth.getPrincipal()).getPassword())) {
-			errors.rejectValue("currentPassword", "validation.custom.currentPasswordIncorrect", new String[] {}, "現在のパスワードと一致しません");
+			errors.rejectValue("currentPassword", "validation.custom.currentPasswordIncorrect");
 		}
 	}
 }

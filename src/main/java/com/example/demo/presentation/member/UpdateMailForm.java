@@ -11,7 +11,7 @@ import lombok.Data;
 public class UpdateMailForm {
 
 	/** メールアドレス */
-	@NotBlank(message = "必須項目です")
-	@Email(message = "メールアドレスの形式で入力してください")
+	@NotBlank
+	@Email
 	private String mail;
 }

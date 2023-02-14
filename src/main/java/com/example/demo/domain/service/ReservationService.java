@@ -14,6 +14,9 @@ import com.example.demo.repository.ReservationMapper;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * 予約 Domain Service
+ */
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -23,7 +26,7 @@ public class ReservationService {
 
 	/**
 	 * 予約登録
-	 * @param reservation
+	 * @param reservation 予約
 	 * @return
 	 */
 	public int createReservation(Reservation reservation) {

@@ -13,12 +13,12 @@ import lombok.Data;
 public class UpdateProfileForm {
 
 	/** 名前 */
-	@NotBlank(message = "必須項目です")
+	@NotBlank
 	@Length(max = 100, message = "100文字以内で入力してください")
 	private String name;
 	
 	/** 電話番号 */
-	@NotBlank(message = "必須項目です")
+	@NotBlank
 	@Length(max = 15, message = "15文字以内で入力してください")
 	@Pattern(regexp = "^[0-9]+$", message = "半角数字で入力してください")
 	private String phoneNumber;

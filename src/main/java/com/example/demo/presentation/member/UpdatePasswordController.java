@@ -48,8 +48,8 @@ public class UpdatePasswordController {
 	
 	/**
 	 * パスワード変更
-	 * @param authenticatedMember
-	 * @param updatePasswordForm
+	 * @param authenticatedMember 認証済み会員
+	 * @param updatePasswordForm 更新後パスワード情報
 	 * @param result
 	 * @return
 	 */

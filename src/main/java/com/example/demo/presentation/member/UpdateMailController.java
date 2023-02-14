@@ -18,7 +18,7 @@ import com.example.demo.security.AuthenticatedMember;
 import lombok.RequiredArgsConstructor;
 
 /*
- * メールアドレス変更
+ * メールアドレス変更 Controller
  */
 @RequiredArgsConstructor
 @Controller
@@ -40,7 +40,7 @@ public class UpdateMailController {
 	
 	/**
 	 * メールアドレス変更フォーム表示
-	 * @param authenticatedMember
+	 * @param authenticatedMember 認証済み会員
 	 * @param model
 	 * @return
 	 */
@@ -54,8 +54,8 @@ public class UpdateMailController {
 	
 	/**
 	 * メールアドレス変更
-	 * @param authenticatedMember
-	 * @param updateMailForm
+	 * @param authenticatedMember 認証済み会員
+	 * @param updateMailForm 変更後メールアドレス情報
 	 * @param result
 	 * @param model
 	 * @return
@@ -73,6 +73,10 @@ public class UpdateMailController {
 		return "redirect:/member/mail?complete";
 	}
 	
+	/**
+	 * メールアドレス変更完了画面表示
+	 * @return
+	 */
 	@GetMapping(value = "/mail", params = "complete")
 	public String complete() {
 		return "member/mail/updateComplete";

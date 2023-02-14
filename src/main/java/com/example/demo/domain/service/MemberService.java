@@ -61,7 +61,7 @@ public class MemberService {
 	
 	/**
 	 * メールアドレス変更
-	 * @param member
+	 * @param member 更新後メールアドレス
 	 */
 	public void updateMail(Member member) {
 		memberMapper.updateMail(member);
@@ -69,8 +69,8 @@ public class MemberService {
 	
 	/**
 	 * パスワード変更
-	 * @param memberId
-	 * @param newPassword
+	 * @param memberId 会員ID
+	 * @param newPassword 暗号化前パスワード
 	 */
 	public void updatePassword(int memberId, String newPassword) {
 		

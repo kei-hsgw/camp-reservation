@@ -10,6 +10,9 @@ import com.example.demo.repository.SiteTypeMapper;
 
 import lombok.RequiredArgsConstructor;
 
+/*
+ * サイトタイプ Domain Service
+ */
 @RequiredArgsConstructor
 @Service
 public class SiteTypeService {
@@ -26,7 +29,7 @@ public class SiteTypeService {
 	
 	/**
 	 * サイトタイプ取得(ID指定)
-	 * @param siteTypeId
+	 * @param siteTypeId サイトタイプID
 	 * @return
 	 */
 	public Optional<SiteType> findBySiteTypeId(int siteTypeId) {
