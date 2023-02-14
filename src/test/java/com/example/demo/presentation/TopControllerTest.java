@@ -38,7 +38,7 @@ class TopControllerTest {
 	
 	@Test
 	@DisplayName("正常系：トップページに遷移した時、サイトタイプ別料金表を取得できている")
-	void testTopPage() throws Exception {
+	void testTop() throws Exception {
 		
 		// 準備
 		List<SiteRatePivot> siteRatePivotList = new ArrayList<>();
@@ -66,7 +66,7 @@ class TopControllerTest {
 		
 		when(topAppService.findAllSiteRatePivot()).thenReturn(siteRatePivotList);
 		
-		// 実行
+		// 検証 & 実行
 		MvcResult result = mockMvc.perform(get("/"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("index"))
