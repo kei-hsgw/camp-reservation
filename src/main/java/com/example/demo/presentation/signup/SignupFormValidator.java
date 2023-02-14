@@ -43,7 +43,7 @@ public class SignupFormValidator implements Validator {
 	private void validateDuplicateMail(Errors errors, String mail) {
 		
 		if (memberService.findByMail(mail).isPresent()) {
-			errors.rejectValue("mail", "validation.custom.duplicateMail", new String[] {mail}, "このメールアドレスは既に登録されています");
+			errors.rejectValue("mail", "validation.custom.duplicateMail");
 		}
 	}
 }

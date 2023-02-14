@@ -42,7 +42,7 @@ public class UpdateMailFormValidator implements Validator {
 	 * メールアドレスの重複検証
 	 * メールアドレスが既に登録されている場合はエラー
 	 * @param errors
-	 * @param mail
+	 * @param mail メールアドレス
 	 */
 	private void validateDuplicateMail(Errors errors, String mail) {
 		
@@ -55,7 +55,7 @@ public class UpdateMailFormValidator implements Validator {
 		
 		// メールアドレスが登録済み
 		if (memberService.findByMail(mail).isPresent()) {
-			errors.rejectValue("mail", "validation.custom.duplicateMail", new String[] {mail}, "このメールアドレスが既に登録されています");
+			errors.rejectValue("mail", "validation.custom.duplicateMail");
 		}
 	}
 }

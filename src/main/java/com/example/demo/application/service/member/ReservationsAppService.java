@@ -1,11 +1,16 @@
 package com.example.demo.application.service.member;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.model.Reservation;
 import com.example.demo.domain.service.ReservationService;
+import com.example.demo.exception.BusinessException;
+import com.example.demo.exception.SystemException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,11 +22,12 @@ import lombok.RequiredArgsConstructor;
 public class ReservationsAppService {
 
 	private final ReservationService reservationService;
+	private final MessageSource messageSource;
 	
 	/**
 	 * 予約検索(ページネーション)
 	 * @param memberId 会員ID
-	 * @param pageable ページ情報
+	 * @param pageable
 	 * @return
 	 */
 	public Page<Reservation> searchReservations(int memberId, Pageable pageable) {
@@ -36,12 +42,12 @@ public class ReservationsAppService {
 	public Reservation findReservationDetailsById(int reservationId) {
 		
 		return reservationService.findReservationDetailsById(reservationId)
-				.orElseThrow(() -> new RuntimeException());
+				.orElseThrow(() -> new SystemException(messageSource.getMessage("exception.dataNotFound", new String[] {String.valueOf(reservationId)}, Locale.JAPAN)));
 	}
 	
 	/**
 	 * 予約キャンセル
-	 * @param reservationId
+	 * @param reservationId 予約ID
 	 * @return
 	 */
 	public int cancelReservation(int reservationId) {
@@ -51,7 +57,7 @@ public class ReservationsAppService {
 		
 		// キャンセル済みまたはキャンセル期限を過ぎている場合はエラー
 		if (reservation.isCanceled() || !reservation.canCancel()) {
-			throw new RuntimeException();
+			throw new BusinessException(messageSource.getMessage("exception.cannotCancel", null, Locale.JAPAN));
 		}
 		
 		// 予約キャンセル

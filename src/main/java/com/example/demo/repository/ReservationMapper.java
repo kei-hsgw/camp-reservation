@@ -13,7 +13,7 @@ public interface ReservationMapper {
 
 	/**
 	 * 予約登録
-	 * @param reservation
+	 * @param reservation 予約
 	 * @return
 	 */
 	public int createReservation(Reservation reservation);
@@ -42,7 +42,7 @@ public interface ReservationMapper {
 	
 	/**
 	 * 予約キャンセル
-	 * @param reservationId
+	 * @param reservationId 予約ID
 	 * @return
 	 */
 	public int cancelReservation(int reservationId);

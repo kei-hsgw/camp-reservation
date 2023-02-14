@@ -34,8 +34,8 @@ public class UpdateProfileController {
 	
 	/**
 	 * 会員基本情報更新フォーム表示
-	 * @param authenticatedMember
-	 * @param updateProfileForm
+	 * @param authenticatedMember 認証済み会員
+	 * @param updateProfileForm 更新後会員基本情報
 	 * @return
 	 */
 	@GetMapping("/profile")
@@ -51,8 +51,8 @@ public class UpdateProfileController {
 	
 	/**
 	 * 会員基本情報更新
-	 * @param authenticatedMember
-	 * @param updateProfileForm
+	 * @param authenticatedMember 認証済み会員
+	 * @param updateProfileForm 更新後会員基本情報
 	 * @param result
 	 * @return
 	 */

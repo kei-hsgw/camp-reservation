@@ -1,11 +1,14 @@
 package com.example.demo.application.service.camping;
 
 import java.util.List;
+import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.model.SiteType;
 import com.example.demo.domain.service.SiteTypeService;
+import com.example.demo.exception.SystemException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class CampingAppService {
 
 	private final SiteTypeService siteTypeService;
+	private final MessageSource messageSource;
 	
 	/**
 	 * サイトタイプ全件取得
@@ -28,13 +32,13 @@ public class CampingAppService {
 	
 	/**
 	 * サイトタイプ名取得
-	 * @param siteTypeId
+	 * @param siteTypeId サイトタイプID
 	 * @return
 	 */
 	public String findSiteTypeName(int siteTypeId) {
 		
 		return siteTypeService.findBySiteTypeId(siteTypeId)
 				.map(st -> st.getName())
-				.orElseThrow(() -> new RuntimeException());
+				.orElseThrow(() -> new SystemException(messageSource.getMessage("exception.dataNotFound", new String[] {String.valueOf(siteTypeId)}, Locale.JAPAN)));
 	}
 }

@@ -32,8 +32,8 @@ public class SiteRateService {
 	
 	/**
 	 * サイト料金取得
-	 * @param siteTypeId
-	 * @param date
+	 * @param siteTypeId サイトタイプID
+	 * @param date 日にち
 	 * @return
 	 */
 	public SiteRate findSiteRate(int siteTypeId, LocalDate date) {

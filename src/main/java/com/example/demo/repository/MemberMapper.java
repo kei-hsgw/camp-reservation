@@ -37,14 +37,14 @@ public interface MemberMapper {
 	
 	/**
 	 * メールアドレス変更
-	 * @param member
+	 * @param member 更新後メールアドレス
 	 */
 	public void updateMail(Member member);
 	
 	/**
 	 * パスワード変更
-	 * @param memberId
-	 * @param encodePassword
+	 * @param memberId 会員ID
+	 * @param encodePassword 暗号化されたパスワード
 	 */
 	public void updatePassword(int memberId, String encodePassword);
 }

@@ -47,7 +47,7 @@ public class SignupController {
 	
 	/**
 	 * 会員登録
-	 * @param signupForm
+	 * @param signupForm 会員情報
 	 * @param result
 	 * @return
 	 */

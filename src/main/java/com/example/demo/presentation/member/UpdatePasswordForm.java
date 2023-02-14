@@ -13,13 +13,13 @@ import lombok.Data;
 public class UpdatePasswordForm {
 
 	/** 現在のパスワード */
-	@NotBlank(message = "必須項目です")
+	@NotBlank
 	@Length(min = 8, message = "8文字以上で入力してください")
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "半角英数字で入力してください")
 	private String currentPassword;
 	
 	/** 新しいパスワード */
-	@NotBlank(message = "必須項目です")
+	@NotBlank
 	@Length(min = 8, message = "8文字以上で入力してください")
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "半角英数字で入力してください")
 	private String password;

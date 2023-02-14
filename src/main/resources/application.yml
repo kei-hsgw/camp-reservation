@@ -4,6 +4,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/camp-reservation
     username: postgres
     password: postgres
+  messages:
+    basename: messages, ValidationMessages
 
 mybatis:
   configuration:

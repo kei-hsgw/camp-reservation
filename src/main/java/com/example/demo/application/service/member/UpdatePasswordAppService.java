@@ -19,8 +19,8 @@ public class UpdatePasswordAppService {
 	
 	/**
 	 * パスワード変更
-	 * @param memberId
-	 * @param password
+	 * @param memberId 会員ID
+	 * @param newPassword 更新後パスワード
 	 */
 	public void updatePassword(int memberId, String newPassword) {
 		memberService.updatePassword(memberId, newPassword);

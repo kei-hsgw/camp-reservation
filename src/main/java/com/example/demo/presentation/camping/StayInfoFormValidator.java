@@ -1,6 +1,9 @@
 package com.example.demo.presentation.camping;
 
+import java.util.Locale;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -8,6 +11,7 @@ import org.springframework.validation.Validator;
 import com.example.demo.domain.model.StayInfo;
 import com.example.demo.domain.service.SiteAvailabilityService;
 import com.example.demo.domain.service.SiteTypeService;
+import com.example.demo.exception.SystemException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +25,7 @@ public class StayInfoFormValidator implements Validator {
 	private final SiteTypeService siteTypeService;
 	private final SiteAvailabilityService siteAvailabilityService;
 	private final ModelMapper modelMapper;
+	private final MessageSource messageSource;
 
 	/**
 	 * チェック対象となるクラスがStayInfoFormクラスかチェックする
@@ -39,7 +44,7 @@ public class StayInfoFormValidator implements Validator {
 		// サイトの上限人数取得
 		int capacity = siteTypeService.findBySiteTypeId(stayInfo.getSiteTypeId())
 				.map(st -> st.getCapacity())
-				.orElseThrow(() -> new RuntimeException());
+				.orElseThrow(() -> new SystemException(messageSource.getMessage("exception.dataNotFound", new String[] {String.valueOf(stayInfo.getSiteTypeId())}, Locale.JAPAN)));
 		
 		// 宿泊人数検証
 		validateNumberOfPeople(errors, stayInfo, capacity);
@@ -63,7 +68,7 @@ public class StayInfoFormValidator implements Validator {
 	private void validateNumberOfPeople(Errors errors, StayInfo stayInfo, int capacity) {
 		
 		if (!stayInfo.isValidNumberOfPeople(capacity)) {
-			errors.rejectValue("numberOfPeople", "validation.custom.numberOfPeopleIncorrect", new String[] {String.valueOf(capacity)}, "宿泊人数が上限を超えています");
+			errors.rejectValue("numberOfPeople", "validation.custom.numberOfPeopleIncorrect");
 		}
 	}
 	
@@ -77,7 +82,7 @@ public class StayInfoFormValidator implements Validator {
 	private boolean validateOKPeriodOfStay(Errors errors, StayInfo stayInfo) {
 		
 		if (!stayInfo.isValidPeriod()) {
-			errors.rejectValue("stayDays", "validation.custom.periodOfStayIncorrect", new String[] {String.valueOf(stayInfo.getDaysOfStay())}, "予約受付期間外の日程が含まれています");
+			errors.rejectValue("stayDays", "validation.custom.periodOfStayIncorrect");
 			return false;
 		}
 		
@@ -93,7 +98,7 @@ public class StayInfoFormValidator implements Validator {
 	private void validateSiteAvailability(Errors errors, StayInfo stayInfo) {
 		
 		if (siteAvailabilityService.isSiteAvailableForPeriod(stayInfo.getSiteTypeId(), stayInfo.getDateFrom(), stayInfo.getDateTo())) {
-			errors.rejectValue("stayDays", "validation.custom.siteIsNotAvailable", new String[] {String.valueOf(stayInfo.getDaysOfStay())}, "満室の日程が含まれています");
+			errors.rejectValue("stayDays", "validation.custom.siteIsNotAvailable");
 		}
 	}
 }
