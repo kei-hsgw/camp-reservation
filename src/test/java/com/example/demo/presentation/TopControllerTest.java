@@ -1,8 +1,8 @@
 package com.example.demo.presentation;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.application.service.TopAppService;
 import com.example.demo.domain.model.SiteRatePivot;
@@ -30,18 +29,16 @@ import com.example.demo.domain.model.SiteRatePivot;
 @SpringBootTest
 class TopControllerTest {
 	
+	List<SiteRatePivot> siteRatePivotList = new ArrayList<>();
+	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
 	private TopAppService topAppService;
 	
-	@Test
-	@DisplayName("正常系：トップページに遷移した時、サイトタイプ別料金表を取得できている")
-	void testTop() throws Exception {
-		
-		// 準備
-		List<SiteRatePivot> siteRatePivotList = new ArrayList<>();
+	@BeforeEach
+	void setUp() throws Exception {
 		
 		SiteRatePivot siteRatePivot1 = new SiteRatePivot();
 		siteRatePivot1.setSiteTypeId(1);
@@ -63,20 +60,20 @@ class TopControllerTest {
 		siteRatePivot3.setRateBasic(BigDecimal.valueOf(5000));
 		siteRatePivot3.setRateHighSeason(BigDecimal.valueOf(7000));
 		siteRatePivotList.add(siteRatePivot3);
+	}
+	
+	@Test
+	@DisplayName("正常系：トップページに遷移した時、サイトタイプ別料金表を取得できている")
+	void testTop() throws Exception {
 		
 		when(topAppService.findAllSiteRatePivot()).thenReturn(siteRatePivotList);
 		
 		// 検証 & 実行
-		MvcResult result = mockMvc.perform(get("/"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("index"))
-				.andReturn();
-		
-		// modelの格納情報セット
-		ModelAndView mav = result.getModelAndView();
-		
-		// 検証
-		assertEquals(siteRatePivotList, mav.getModel().get("siteRateList"));
+		mockMvc.perform(get("/"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("index"))
+		.andExpect(model().attribute("siteRateList", siteRatePivotList))
+		.andReturn();
 	}
 
 }
